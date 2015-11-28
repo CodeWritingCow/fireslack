@@ -15,22 +15,40 @@ angular
     'ui.router'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
-    $stateProvider
+      $stateProvider
       .state('home', {
-        url: '/',
-        templateUrl: 'home/home.html'
+          url: '/',
+          templateUrl: 'home/home.html'
       })
       .state('login', {
-        url: '/login',
-        controller: 'AuthCtrl as authCtrl',
-        templateUrl: 'auth/login.html'
+          url: '/login',
+          controller: 'AuthCtrl as authCtrl',
+          templateUrl: 'auth/login.html',
+          resolve: {
+              requireNoAuth: function ($state, Auth) {
+                  return Auth.$requireAuth().then(function (auth) {
+                      $state.go('home');
+                  }, function (error) {
+                      return;
+                  });
+              }
+          }
       })
       .state('register', {
-        url: '/register',
-        controller: 'AuthCtrl as authCtrl',
-        templateUrl: 'auth/register.html'
+          url: '/register',
+          controller: 'AuthCtrl as authCtrl',
+          templateUrl: 'auth/register.html',
+          resolve: {
+              requireNoAuth: function ($state, Auth) {
+                  return Auth.$requireAuth().then(function (auth) {
+                      $state.go('home');
+                  }, function (error) {
+                      return;
+                  });
+              }
+          }
       });
 
-    $urlRouterProvider.otherwise('/');
+      $urlRouterProvider.otherwise('/');
   })
   .constant('FirebaseUrl', 'https://slack.firebaseio.com/');
