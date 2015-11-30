@@ -96,6 +96,11 @@ angular
                          });
               }
           }
+      })
+      .state('channels.create', {
+          url: '/create',
+          templateUrl: 'channels/create.html',
+          controller: 'ChannelsCtrl as channelsCtrl'
       });
 
       $urlRouterProvider.otherwise('/');

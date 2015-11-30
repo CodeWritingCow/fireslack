@@ -14,4 +14,16 @@ angular.module('angularfireSlackApp')
           $state.go('home');
       };
 
+      channelsCtrl.newChannel = {
+          name: ''
+      };
+
+      channelsCtrl.createChannel = function () {
+          channelsCtrl.channels.$add(channelsCtrl.newChannel).then(function () {
+              channelsCtrl.newChannel = {
+                  name: ''
+              };
+          });
+      };
+
   });
