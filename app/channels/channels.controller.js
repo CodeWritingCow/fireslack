@@ -11,8 +11,11 @@ angular.module('angularfireSlackApp')
 
       // Lets user log out and return to home state
       channelsCtrl.logout = function () {
-          Auth.$unauth();
-          $state.go('home');
+          channelsCtrl.profile.online = null;
+          channelsCtrl.profile.$save().then(function () {
+              Auth.$unauth();
+              $state.go('home');
+          });
       };
 
       channelsCtrl.newChannel = {
@@ -24,5 +27,8 @@ angular.module('angularfireSlackApp')
               $state.go('channels.messages', { channelId: ref.key() });
           });
       };
+
+      // Set current user as online
+      Users.setOnline(profile.$id);
 
   });
